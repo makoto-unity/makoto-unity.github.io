@@ -125,6 +125,22 @@ const startService = (roomName, apikey) => {
     stopStreaming(client, uuid)
     client.unsubscribe(subTopicName);
   })
+
+  $("#forward").on("click", function() {
+      client.publish("rc/control", "forward")
+  })
+  $("#right").on("click", function() {
+      client.publish("rc/control", "right")
+  })
+  $("#left").on("click", function() {
+      client.publish("rc/control", "left")
+  })
+  $("#back").on("click", function() {
+      client.publish("rc/control", "back")
+  })
+  $("#home").on("click", function() {
+      client.publish("rc/control", "home")
+  })
 }
 
 //
