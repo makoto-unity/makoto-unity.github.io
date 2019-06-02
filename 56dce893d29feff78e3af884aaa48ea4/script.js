@@ -37,6 +37,19 @@ const startStreaming = (client, profile) => {
     .then( stream => {
       $("#video-status").text("started")
       $("video")[0].srcObject = stream
+      $("#playButton").prop("disabled", false)
+    })
+}
+
+const stopStreaming = (client, uuid) => {
+  $("#video-status").text("closing")
+  client.stopStreaming(uuid)
+    .then( () => {
+      $("#video-status").text("closed")
+      $("#uuid").text("N/A")
+      $("form.connect").find("button").prop("disabled", false)
+      $("#stopButton").prop("disabled", true)
+      location.reload();
     })
 }
 
@@ -99,6 +112,19 @@ const startService = (roomName, apikey) => {
 
     if(!!mesg) client.publish(pubTopicName, mesg)
   })
+
+  $("#playButton").on("click", function(){
+    var video = document.getElementById('janusvideo');
+    video.play();
+    $("#playButton").prop("disabled", true)
+    $("#stopButton").prop("disabled", false)
+  })
+
+  $("#stopButton").on("click", function() {
+    var uuid = $("#uuid").text();
+    stopStreaming(client, uuid)
+    client.unsubscribe(subTopicName);
+  })
 }
 
 //
@@ -129,6 +155,8 @@ $("form.connect").on("submit", function(ev) {
   storeLocalStorage({apikey, roomName, subTopicName})
   startService(roomName, apikey)
 })
+
+
 
 ////////////////////////////////////////////////////////
 // start
