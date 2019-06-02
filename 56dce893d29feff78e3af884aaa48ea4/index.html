@@ -1,50 +1,97 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="./dist/skyway-siru-client.js"></script>
-  </head>
-  <body>
-    <div class="container">
-      <div>
-        <h1>skyway-siru-client example</h1>
-      </div>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
 
-      <div class="mb-4">
-        <form class="form-inline connect">
-          <label for="input-apikey">apikey : </label>
-          <input class="form-control mr-3" type="text" id="input-apikey" placeholder="your APIKEY here." required/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 
-          <label for="input-room-name">room name : </label>
-          <input class="form-control mr-3" type="text" id="input-room-name" value="testroom" required />
+<!-- Custom styles for this template -->
+<style>
+body {
+  padding-top: 70px;
+  padding-bottom: 30px;
+}
 
-          <label for="input-topic-name">MQTT topic for subscribe : </label>
-          <input class="form-control mr-3" type="text" id="input-topic-name" value="testtopic/from_dev" required />
+.theme-dropdown .dropdown-menu {
+  position: static;
+  display: block;
+  margin-bottom: 20px;
+}
 
-          <button class="btn btn-primary" type="submit">start</button>
+.theme-showcase > p > .btn {
+  margin: 5px 0;
+}
+
+.theme-showcase .navbar .container {
+  width: auto;
+}
+</style>
+
+
+<!--[if lt IE 9]>
+<script src="../js/html5shiv-printshiv.min.js"></script>">
+<script src="../js/respond.min.js"></script>
+<![endif]-->
+
+<!-- <script type="text/javascript" src="/js/ga.js"></script> -->
+
+</head>
+
+<body role="document">
+	<div class="container theme-showcase" role="main">
+	
+	  <!-- Main jumbotron for a primary marketing message or call to action -->
+	
+	  <div class="page-header">
+        <h1>DEEBOT Control</h1>
+	  </div>
+	    <div class="col-mb-6">
+          <form class="form-inline connect">
+            <div>
+              <input class="form-control mr-3" type="text" id="input-apikey" placeholder="your APIKEY here." required/>
+            </div>
+            <div>
+              <input class="form-control mr-3" type="text" id="input-room-name" value="testroom" required />
+            </div>
+            <div>
+              <input class="form-control mr-3" type="text" id="input-topic-name" value="rc/control" required />
+            </div>
+            <div>
+              <button class="btn-lg btn-primary" type="submit">start</button>
+            </div>
         </form>
-      </div>
-
-      <div class="card md-5">
-        <div class="card-body">
-          <div class="card-title">
-            <h4>state table</h4>
-          </div>
-          <div class="card-body">
-            <table class="table">
+	    </div>
+	
+	  <div class="row">
+	    <div class="col-md-4">
+	      <table class="table table-bordered">
+	        <tbody>
               <tr><th>status</th><td id="status">init</td></tr>
+	        </tbody>
+	      </table>
+	    </div>
+	    <div class="col-md-4">
+	      <table class="table table-bordered">
+	        <tbody>
               <tr><th>uuid</th><td id="uuid">N/A</td></tr>
+	        </tbody>
+	      </table>
+	    </div>
+	    <div class="col-md-4">
+	      <table class="table table-bordered">
+	        <tbody>
               <tr><th>video</th><td id="video-status">idle</td></tr>
-            </table>
-          </div>
-        </div>
-      </div>
-
+	        </tbody>
+	      </table>
+	    </div>
+	  </div>
+	
       <div class="row mt-3">
         <div class="col-md-8">
-          <video id="janusvideo" playsinline></video>
+          <video id="janusvideo" playsinline autoplay></video>
               <form class="form control">
                 <div id="site-box">
                   <div id="a-box">
@@ -57,9 +104,9 @@
                     <button class="btn btn-primary btn-lg mt-2" type="button" style="visibility:hidden">■</button>
                     <button class="btn btn-primary btn-lg mt-2" type="button" id="right">▶</button>
                     <button class="btn btn-primary btn-lg mt-2" type="button" style="visibility:hidden">■</button>
-                    <button class="btn btn-primary btn-lg mt-2" type="button" id="playButton" disabled>PLAY</button>
-                    <button class="btn btn-primary btn-lg mt-2" type="button" id="stopButton" disabled>STOP</button>
-                    <button class="btn btn-primary btn-lg mt-2" type="button" id="home" >HOME</button>
+                    <button class="btn btn-primary btn mt-2" type="button" id="playButton" disabled>PLAY</button>
+                    <button class="btn btn-primary btn mt-2" type="button" id="stopButton" disabled>STOP</button>
+                    <button class="btn btn-primary btn mt-2" type="button" id="home" >HOME</button>
                   </div>
                   <div id="d-box">
                     <button class="btn btn-primary btn-lg mt-2" type="button" style="visibility:hidden">■</button>
@@ -84,7 +131,13 @@
           </div>
         </div>
       </div>
-    </div>
-    <script src="./script.js"></script>
-  </body>
+      
+	</div> <!-- /container -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="./bootstrap/js/bootstrap.min.js"></script>
+<script src="./dist/skyway-siru-client.js"></script>
+<script src="./script.js"></script>
+
+</body>
 </html>
